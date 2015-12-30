@@ -20,32 +20,37 @@ class A {
             cout<<"\nClass A \n a = "<<a;
             cout<<"\nb = "<<b;
         }
-    friend void inside_public(A & a_var);
+
+        friend class B;
+
     protected :
         int b;
 };
 
-void inside_public(A & a_var) {
-    cout<<"\nInside Friend\n";
-    a_var.b = 5000;
-    a_var.a = 6000; // gives error
-    a_var.print();    
-}
+class B {
+
+    public:
+        void print(A a) {
+            a.b = 5000;
+            a.a = 6000;
+            a.print();
+        }
+};
 
 int main() {
     A a_var = A(10, 20);
-    inside_public(a_var);
- 
+    B b;
+    b.print( a_var );
     return 0;
 }
 
 /**** OUTPUT ****
-bhalder@hammerheadshark:~/Desktop/CPP$ g++ friend_nonmember.cpp -o friend_nonmember
-bhalder@hammerheadshark:~/Desktop/CPP$ ./friend_nonmember 
 
-Inside Friend
+bhalder@hammerheadshark:~/Desktop/CPP$ g++ friend_class_2.cpp -o friend_class_2
+bhalder@hammerheadshark:~/Desktop/CPP$ ./friend_class_2 
 
 Class A 
- a = 10
-b = 20
+a = 6000
+b = 5000
+
 ****************/
